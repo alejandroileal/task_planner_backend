@@ -6,7 +6,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 import dotenv from "dotenv";
-
+import userRouter from "./routes/userRoutes.js";
 const app = express();
 
 dotenv.config();
@@ -33,7 +33,7 @@ const apiLimiter = rateLimit({
 app.use("/", apiLimiter);
 
 // Rutas
-// app.use("/users", userRoutes);
+app.use("/users", userRouter);
 // app.use("/products", productRoutes);
 
 // Manejadores de errores

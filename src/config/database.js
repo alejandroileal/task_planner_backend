@@ -3,8 +3,6 @@ import mongoose from "mongoose";
 const user = process.env.DB_USER;
 const password = process.env.DB_PASSWORD;
 
-console.log(user, password);
-
 const connectDB = async () => {
   try {
     await mongoose.connect(
