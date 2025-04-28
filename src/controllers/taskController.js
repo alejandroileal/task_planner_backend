@@ -3,7 +3,7 @@ import {
   deleteTask,
   getTasks,
   updateTask,
-} from "../services/taskServices";
+} from "../services/taskServices.js";
 
 export const taskController = {
   getTasks: [
@@ -31,7 +31,7 @@ export const taskController = {
 
         res.status(201).json({ success: "ok", addTaskResponse });
       } catch (error) {
-        res.status(500).json({ success: "nok", error: "Cannot add task" });
+        res.status(500).json({ success: "nok", error: "Cannot create task" });
       }
     },
   ],
@@ -44,7 +44,7 @@ export const taskController = {
         const updatedTaskResponse = await updateTask(taskId, task);
         res.status(200).json({ success: "ok", updatedTaskResponse });
       } catch (error) {
-        res.status(500).json({ success: "nok", error: "Cannot add task" });
+        res.status(500).json({ success: "nok", error: "Cannot update task" });
       }
     },
   ],

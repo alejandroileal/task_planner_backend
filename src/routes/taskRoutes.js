@@ -1,5 +1,4 @@
 import express from "express";
-import { userController } from "../controllers/userController.js";
 import { authenticate } from "../middlewares/authMiddleware.js";
 import { taskController } from "../controllers/taskController.js";
 
