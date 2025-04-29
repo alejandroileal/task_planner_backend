@@ -7,6 +7,8 @@ import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoutes.js";
+import taskRouter from "./routes/taskRoutes.js";
+import eventRouter from "./routes/eventRoutes.js";
 const app = express();
 
 dotenv.config();
@@ -34,7 +36,8 @@ app.use("/", apiLimiter);
 
 // Rutas
 app.use("/users", userRouter);
-// app.use("/products", productRoutes);
+app.use("/tasks", taskRouter);
+app.use("/events", eventRouter);
 
 // Manejadores de errores
 app.use(notFoundHandler);

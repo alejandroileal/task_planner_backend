@@ -4,9 +4,9 @@ import { taskController } from "../controllers/taskController.js";
 
 const taskRouter = express.Router();
 
-taskRouter.get("/", authenticate, taskController.getTasks());
-taskRouter.post("/create", authenticate, taskController.createTask());
-taskRouter.patch("/update/:taskId", authenticate, taskController.updateTask());
-taskRouter.delete("/delete/:taskId", authenticate, taskController.deleteTask());
+taskRouter.get("/", authenticate, taskController.getTasks);
+taskRouter.post("/create", authenticate, taskController.createTask);
+taskRouter.patch("/update/:taskId", authenticate, taskController.updateTask);
+taskRouter.delete("/delete/:taskId", authenticate, taskController.deleteTask);
 
 export default taskRouter;
