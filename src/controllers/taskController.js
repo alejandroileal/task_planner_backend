@@ -4,6 +4,11 @@ import {
   getTasks,
   updateTask,
 } from "../services/taskServices.js";
+import {
+  createTaskValidations,
+  deleteTaskValidations,
+  updateTaskValidations,
+} from "../validations/taskValidations.js";
 
 export const taskController = {
   getTasks: [
@@ -17,6 +22,7 @@ export const taskController = {
     },
   ],
   createTask: [
+    ...createTaskValidations,
     async (req, res) => {
       try {
         const { title, description, dueDate, status, userId } = req.body;
@@ -36,6 +42,7 @@ export const taskController = {
     },
   ],
   updateTask: [
+    ...updateTaskValidations,
     async (req, res) => {
       try {
         const { userId, ...task } = req.body;
@@ -49,6 +56,7 @@ export const taskController = {
     },
   ],
   deleteTask: [
+    ...deleteTaskValidations,
     async (req, res) => {
       try {
         const { taskId } = req.params;

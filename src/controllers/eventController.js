@@ -4,6 +4,11 @@ import {
   getEvents,
   updateEvent,
 } from "../services/eventServices.js";
+import {
+  createEventValidations,
+  deleteEventValidations,
+  updateEventValidations,
+} from "../validations/eventValidations.js";
 
 export const eventController = {
   getEvents: [
@@ -17,6 +22,7 @@ export const eventController = {
     },
   ],
   createEvent: [
+    ...createEventValidations,
     async (req, res) => {
       try {
         const { userId, ...event } = req.body;
@@ -35,6 +41,7 @@ export const eventController = {
     },
   ],
   updateEvent: [
+    ...updateEventValidations,
     async (req, res) => {
       try {
         const { userId, ...event } = req.body;
@@ -50,6 +57,7 @@ export const eventController = {
     },
   ],
   deleteEvent: [
+    ...deleteEventValidations,
     async (req, res) => {
       try {
         const { eventId } = req.params;
