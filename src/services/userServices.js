@@ -6,7 +6,16 @@ export async function createUser(user) {
   try {
     const newUser = new User(user);
     const response = await newUser.save();
-    return response;
+
+    const token = jwt.sign(
+      { id: response.id, role: response.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "90d",
+      }
+    );
+
+    return { newUser: response, token };
   } catch (error) {
     throw error;
   }
@@ -17,12 +26,16 @@ export async function login(email, password) {
     const user = await User.findOne({ email });
     if (!user) throw new Error("User not found");
 
-    const isPasswordValid = bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) throw new Error("Incorrect password");
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "90d",
-    });
+    const token = jwt.sign(
+      { id: user.id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "90d",
+      }
+    );
 
     return { token, user };
   } catch (error) {

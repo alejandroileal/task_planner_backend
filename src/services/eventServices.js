@@ -2,7 +2,7 @@ import Event from "../models/Event.js";
 
 export async function getEvents(userId) {
   try {
-    const events = await Event.find({ owner: userId });
+    const events = await Event.find();
     return events;
   } catch (error) {
     throw error;

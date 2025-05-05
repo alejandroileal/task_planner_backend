@@ -1,12 +1,14 @@
 import {
   createTask,
   deleteTask,
+  filterTask,
   getTasks,
   updateTask,
 } from "../services/taskServices.js";
 import {
   createTaskValidations,
   deleteTaskValidations,
+  filterTaskValidations,
   updateTaskValidations,
 } from "../validations/taskValidations.js";
 
@@ -65,6 +67,20 @@ export const taskController = {
         res.status(200).json({ success: "ok", deleteTaskResponse });
       } catch (error) {
         res.status(500).json({ success: "nok", error: "Cannot delete task" });
+      }
+    },
+  ],
+  filterTasksByStatus: [
+    ...filterTaskValidations,
+    async (req, res) => {
+      try {
+        const { status } = req.params;
+        const filerTaskResponse = await filterTask(status);
+        res
+          .status(200)
+          .json({ success: "ok", filteredTasks: filerTaskResponse });
+      } catch (error) {
+        res.status(500).json({ success: "nok", error: "Cannot filter tasks" });
       }
     },
   ],

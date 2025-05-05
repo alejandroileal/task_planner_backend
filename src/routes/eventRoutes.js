@@ -4,17 +4,17 @@ import { eventController } from "../controllers/eventController.js";
 
 const eventRouter = express.Router();
 
-eventRouter.get("/", authenticate, eventController.getEvents());
-eventRouter.post("/create", authenticate, eventController.createEvent());
+eventRouter.get("/", authenticate, eventController.getEvents);
+eventRouter.post("/create", authenticate, eventController.createEvent);
 eventRouter.patch(
   "/update/:eventId",
   authenticate,
-  eventController.updateEvent()
+  eventController.updateEvent
 );
 eventRouter.delete(
   "/delete/:eventId",
   authenticate,
-  eventController.deleteEvent()
+  eventController.deleteEvent
 );
 
 export default eventRouter;

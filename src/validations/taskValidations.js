@@ -82,3 +82,14 @@ export const deleteTaskValidations = [
     .withMessage("Debe ser un ID de MongoDB válido"),
   validateResult,
 ];
+
+export const filterTaskValidations = [
+  param("status")
+    .isString()
+    .withMessage("Debe ser un string.")
+    .isIn(["pendiente", "en proceso", "completada"])
+    .withMessage(
+      "El estado debe ser 'pendiente', 'en proceso' o 'completada'."
+    ),
+  validateResult,
+];

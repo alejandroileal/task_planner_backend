@@ -37,7 +37,7 @@ export const userController = {
         res.status(200).json({ success: "ok", loginData });
       } catch (error) {
         console.log(error);
-        res.status(500).json({ success: "nok", error: "Cannot login" });
+        res.status(500).json({ success: "nok", error: error.message });
       }
     },
   ],

@@ -9,6 +9,7 @@ import dotenv from "dotenv";
 import userRouter from "./routes/userRoutes.js";
 import taskRouter from "./routes/taskRoutes.js";
 import eventRouter from "./routes/eventRoutes.js";
+import { authotization } from "./middlewares/authMiddleware.js";
 const app = express();
 
 dotenv.config();
