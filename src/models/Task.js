@@ -26,6 +26,10 @@ const taskSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  images: {
+    type: [String],
+    default: [],
+  },
 });
 
 const Task = mongoose.model("Task", taskSchema);
