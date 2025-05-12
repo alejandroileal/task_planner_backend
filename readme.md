@@ -29,8 +29,6 @@ DB_PASSWORD=12345
 JWT_SECRET=Alejandro
 ```
 
-> Asegúrate de que `CLIENT_ORIGIN` coincida con la URL de tu frontend local.
-
 ### 4. Ejecutar el servidor
 
 ```bash
