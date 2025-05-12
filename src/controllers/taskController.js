@@ -2,9 +2,12 @@ import {
   createTask,
   deleteTask,
   filterTask,
+  getTaskById,
   getTasks,
   updateTask,
 } from "../services/taskServices.js";
+
+import fileService from "../services/fileServices.js";
 import {
   createTaskValidations,
   deleteTaskValidations,
@@ -27,14 +30,28 @@ export const taskController = {
     ...createTaskValidations,
     async (req, res) => {
       try {
-        const { title, description, dueDate, status, userId } = req.body;
+        const { title, description, dueDate, status } = req.body;
+
+        const imgPaths = [];
+
+        for (const file of req.files) {
+          const filename = await fileService.uploadFile(file);
+          imgPaths.push(`/uploads/${filename}`);
+          console.log(file);
+        }
 
         const addTaskResponse = await createTask({
           title,
           description,
           dueDate,
           status,
-          owner: userId,
+          owner: req.userId,
+          images: imgPaths,
+        });
+
+        const notifyUser = req.app.get("notify-user");
+        notifyUser(req.userId, "task-created", {
+          message: "Task creada correctamente",
         });
 
         res.status(201).json({ success: "ok", addTaskResponse });
@@ -47,10 +64,29 @@ export const taskController = {
     ...updateTaskValidations,
     async (req, res) => {
       try {
-        const { userId, ...task } = req.body;
+        const { ...task } = req.body;
         const { taskId } = req.params;
 
-        const updatedTaskResponse = await updateTask(taskId, task);
+        const currentTask = await getTaskById(taskId);
+
+        const imgPaths = [];
+
+        for (const file of req.files) {
+          const filename = await fileService.uploadFile(file);
+          imgPaths.push(`/uploads/${filename}`);
+          console.log(file);
+        }
+
+        const updatedTaskResponse = await updateTask(taskId, {
+          ...task,
+          images: [...currentTask.images, ...imgPaths],
+        });
+
+        const notifyUser = req.app.get("notify-user");
+        notifyUser(req.userId, "task-updated", {
+          message: "Task modificada correctamente",
+        });
+
         res.status(200).json({ success: "ok", updatedTaskResponse });
       } catch (error) {
         res.status(500).json({ success: "nok", error: "Cannot update task" });
@@ -60,10 +96,16 @@ export const taskController = {
   deleteTask: [
     ...deleteTaskValidations,
     async (req, res) => {
+      console.log("Entró a delete");
       try {
         const { taskId } = req.params;
 
         const deleteTaskResponse = await deleteTask(taskId);
+
+        const notifyUser = req.app.get("notify-user");
+        notifyUser(req.userId, "task-deleted", {
+          message: "Task eliminada correctamente",
+        });
         res.status(200).json({ success: "ok", deleteTaskResponse });
       } catch (error) {
         res.status(500).json({ success: "nok", error: "Cannot delete task" });
@@ -76,6 +118,7 @@ export const taskController = {
       try {
         const { status } = req.params;
         const filerTaskResponse = await filterTask(status);
+
         res
           .status(200)
           .json({ success: "ok", filteredTasks: filerTaskResponse });

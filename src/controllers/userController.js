@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { createUser, login } from "../services/userServices.js";
+import { createUser, getUser, login } from "../services/userServices.js";
 import {
   loginUserValidation,
   registerUserValidation,
@@ -34,10 +34,29 @@ export const userController = {
       try {
         const { email, password } = req.body;
         const loginData = await login(email, password);
+
+        // Enviar token en una cookie httpOnly
+        res.cookie("token", loginData.token, {
+          // httpOnly: true, // No accesible desde JavaScript del navegador
+          secure: false, // true en producción con HTTPS
+          sameSite: "strict", // Protege contra CSRF
+          maxAge: 60 * 60 * 1000, // 1 hora
+        });
+
         res.status(200).json({ success: "ok", loginData });
       } catch (error) {
         console.log(error);
         res.status(500).json({ success: "nok", error: error.message });
+      }
+    },
+  ],
+  getProfile: [
+    async (req, res) => {
+      try {
+        const getProfileResponse = await getUser(req.userId);
+        res.status(201).json({ success: "ok", user: getProfileResponse });
+      } catch (error) {
+        res.status(500).json({ success: "nok", error: "Cannot get user" });
       }
     },
   ],

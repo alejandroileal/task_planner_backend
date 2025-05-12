@@ -4,6 +4,7 @@ import {
   getEvents,
   updateEvent,
 } from "../services/eventServices.js";
+import { fetchWeather } from "../utils/weather.js";
 import {
   createEventValidations,
   deleteEventValidations,
@@ -25,13 +26,23 @@ export const eventController = {
     ...createEventValidations,
     async (req, res) => {
       try {
-        const { userId, ...event } = req.body;
+        const { ...event } = req.body;
 
-        // Agregar lógica que se obtiene de las APIS externas
+        const weatherData = await fetchWeather(
+          event.date,
+          "96cb6093c994e234f88e5034dd735bea"
+        );
 
         const addEventResponse = await createEvent({
           ...event,
-          owner: userId,
+          owner: req.userId,
+          weatherData,
+        });
+
+        const notifyUser = req.app.get("notify-user");
+
+        notifyUser(req.userId, "event-created", {
+          message: "Evento creado correctamente",
         });
 
         res.status(201).json({ success: "ok", addEventResponse });
@@ -44,12 +55,24 @@ export const eventController = {
     ...updateEventValidations,
     async (req, res) => {
       try {
-        const { userId, ...event } = req.body;
+        const { ...event } = req.body;
         const { eventId } = req.params;
 
-        // Agregar lógica que se obtiene de las APIS externas
+        const weatherData = await fetchWeather(
+          event.date,
+          "96cb6093c994e234f88e5034dd735bea"
+        );
 
-        const updatedEventResponse = await updateEvent(eventId, event);
+        const updatedEventResponse = await updateEvent(eventId, {
+          ...event,
+          weatherData,
+        });
+
+        const notifyUser = req.app.get("notify-user");
+
+        notifyUser(req.userId, "event-updated", {
+          message: "Evento modificado correctamente",
+        });
         res.status(200).json({ success: "ok", updatedEventResponse });
       } catch (error) {
         res.status(500).json({ success: "nok", error: "Cannot update event" });
@@ -63,6 +86,11 @@ export const eventController = {
         const { eventId } = req.params;
 
         const deleteEventResponse = await deleteEvent(eventId);
+        const notifyUser = req.app.get("notify-user");
+
+        notifyUser(req.userId, "event-deleted", {
+          message: "Evento eliminado correctamente",
+        });
         res.status(200).json({ success: "ok", deleteEventResponse });
       } catch (error) {
         res.status(500).json({ success: "nok", error: "Cannot delete event" });
