@@ -37,7 +37,6 @@ export const taskController = {
         for (const file of req.files) {
           const filename = await fileService.uploadFile(file);
           imgPaths.push(`/uploads/${filename}`);
-          console.log(file);
         }
 
         const addTaskResponse = await createTask({
@@ -74,7 +73,6 @@ export const taskController = {
         for (const file of req.files) {
           const filename = await fileService.uploadFile(file);
           imgPaths.push(`/uploads/${filename}`);
-          console.log(file);
         }
 
         const updatedTaskResponse = await updateTask(taskId, {
@@ -96,7 +94,6 @@ export const taskController = {
   deleteTask: [
     ...deleteTaskValidations,
     async (req, res) => {
-      console.log("Entró a delete");
       try {
         const { taskId } = req.params;
 

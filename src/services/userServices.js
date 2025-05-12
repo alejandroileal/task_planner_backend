@@ -50,7 +50,6 @@ export async function login(email, password) {
 
 export async function getUser(userId) {
   try {
-    console.log(userId);
     const user = await User.findById(userId).select("-password");
     return user;
   } catch (error) {
