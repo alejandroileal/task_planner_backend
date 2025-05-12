@@ -115,6 +115,19 @@ Es importante asegurarse que se esté desplegando en `localhost:3500`
 
 ---
 
+## 💡 Decisiones técnicas relevantes
+
+- **Arquitectura basada en principios SOLID:** separación estricta entre controladores, servicios, modelos, middlewares y utilidades, facilitando escalabilidad y mantenimiento del código.
+- **Autenticación dual (cookies + Bearer token):** se implementó para mayor flexibilidad y compatibilidad con distintos entornos y clientes.
+- **Uso de express-validator modularizado:** las validaciones están organizadas por entidad y se integran como middlewares, manteniendo limpio el flujo de rutas.
+- **Protección global con middlewares reutilizables:** el acceso a recursos se controla mediante capas específicas de authenticate y authorize, desacoplando la lógica de seguridad de la lógica de negocio.
+- **Manejo centralizado de errores:** todos los errores pasan por un middleware que estructura las respuestas HTTP de forma coherente para el frontend.
+- **Sockets organizados como servicio:** la lógica de WebSocket está abstraída en un archivo separado, lo que permite mantener aislado su comportamiento y facilita futuras ampliaciones.
+- **Capa de servicios reutilizable:** todas las operaciones con base de datos (usando Mongoose) están centralizadas en la carpeta /services, favoreciendo testabilidad y separación de responsabilidades.
+- **Fotos integradas con lógica relacional:** las imágenes se vinculan con tareas o eventos (si se requiere integrar en el futuro) y se almacenan con su ruta registrada en MongoDB en la colección de cada una, evitando duplicaciones o pérdida de referencias.
+
+---
+
 ## 📌 Ejemplo de autenticación protegida
 
 ```http
