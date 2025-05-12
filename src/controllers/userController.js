@@ -34,12 +34,11 @@ export const userController = {
         const { email, password } = req.body;
         const loginData = await login(email, password);
 
-        // Enviar token en una cookie httpOnly
         res.cookie("token", loginData.token, {
-          // httpOnly: true, // No accesible desde JavaScript del navegador
-          secure: false, // true en producción con HTTPS
-          sameSite: "strict", // Protege contra CSRF
-          maxAge: 60 * 60 * 1000, // 1 hora
+          // httpOnly: true,
+          secure: false,
+          sameSite: "strict",
+          maxAge: 60 * 60 * 1000,
         });
 
         res.status(200).json({ success: "ok", loginData });

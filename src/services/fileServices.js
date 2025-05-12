@@ -36,7 +36,6 @@ export async function deleteFile(filename) {
   await fs.unlink(filePath);
 }
 
-// Inicializar el directorio de uploads
 initializeUploadDir();
 
 export default { uploadFile };
