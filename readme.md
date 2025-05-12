@@ -1,4 +1,4 @@
-# 🔧 Devotion — Backend
+# 🔧 Devotion — Backend (Task Planner Pro)
 
 **Devotion** es una API REST construida en **Node.js** con **Express**, diseñada para gestionar tareas, eventos, fotos y usuarios, y desarrollada como parte del proyecto final del módulo en **Evolve Academy** para el **Máster en Desarrollo Web & IA**. Este backend reemplaza el uso de `localStorage`, integrando una base de datos MongoDB, autenticación segura, subida de imágenes, WebSockets y envío de correos electrónicos automatizados.
 
