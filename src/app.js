@@ -26,7 +26,7 @@ app.use(cookieParser());
 // Evitar conflictos CORS
 app.use(
   cors({
-    origin: "http://localhost:5500",
+    origin: ["http://localhost:5500", "https://alejandroileal.github.io/"],
     credentials: true,
   })
 );

@@ -37,7 +37,7 @@ export const userController = {
         res.cookie("token", loginData.token, {
           // httpOnly: true,
           secure: false,
-          sameSite: "strict",
+          // sameSite: "strict",
           maxAge: 60 * 60 * 1000,
         });
 
