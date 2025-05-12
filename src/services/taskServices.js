@@ -9,6 +9,15 @@ export async function getTasks(userId) {
   }
 }
 
+export async function getTaskById(taskId) {
+  try {
+    const task = await Task.findById(taskId);
+    return task;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function createTask(task) {
   try {
     const newTask = new Task(task);
