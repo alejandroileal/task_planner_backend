@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const taskSchema = new mongoose.Schema({
   title: {
@@ -21,6 +21,14 @@ const taskSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  images: {
+    type: [String],
+    default: [],
   },
 });
 
